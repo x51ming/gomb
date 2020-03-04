@@ -85,9 +85,11 @@ Fork 自 github.com/selfplan/gowebui
 
   - webview.go：最开始自己写的一些函数，在generatedFun中都有对应函数（generatedFun是后来搞的，原因是要用到的函数太多），是自己最常用的一批函数，函数名没有wke前缀
 
-  - webwindow.go：同上，只有一个函数CreateWebWindow，可以不管他
-
 - 示例：
 
-  - [TODO]
+  - node.dll放在examples目录
+
+  - 基本使用：examples/first
+
+  - 绑定js函数：examples/bindjs
 
