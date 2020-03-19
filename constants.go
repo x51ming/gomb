@@ -77,3 +77,12 @@ const (
 	WkeHttBodyElementTypeData WkeHttBodyElementType = iota
 	WkeHttBodyElementTypeFile
 )
+
+type WkeCookieCommand uint32
+
+const (
+	WkeCookieCommandClearAllCookies WkeCookieCommand = iota
+	WkeCookieCommandClearSessionCookies
+	WkeCookieCommandFlushCookiesToFile
+	WkeCookieCommandReloadCookiesFromFile
+)

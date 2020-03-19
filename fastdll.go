@@ -4,6 +4,9 @@ import (
 	"syscall"
 )
 
+//接收一个参数：调用的函数
+//使用WkeWebView作为第一个参数调用该函数
+//返回返回值
 func (mb *WebView) f_void(fun uintptr) uintptr {
 	var api dllAPI
 	api.hFun = fun

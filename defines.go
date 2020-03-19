@@ -59,10 +59,23 @@ type WkeURLChangedCallback CB_view_p_str_void
 type WkeURLChangedCallback2 CB_view_p_fid_str_void
 
 //__fastcall
+//难以实现，不建议使用
 type JsNativeFunction func(es JsExecState) JsValue
 
 //__cdecl
+//可以用
 type WkeJsNativeFunction func(es JsExecState, param uintptr) uintptr
+
+type WkeCookieVisitor func(
+	params uintptr, //void*
+	name *byte,
+	value *byte,
+	domain *byte,
+	path *byte,
+	secure int32,
+	httpOnly int32,
+	expires *int32,
+) uintptr //bool
 
 type Proxy struct {
 	ptype    uint32

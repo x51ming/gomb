@@ -1373,17 +1373,13 @@ func (mb *WebView) WkeGetStringW(s WkeString) *uint16 {
 func (mb *WebView) WkeGetTempCallbackInfo() *WkeTempCallbackInfo {
 	return (*WkeTempCallbackInfo)(ptr(mb.f_void(dllWkeGetTempCallbackInfo)))
 }
-func (mb *WebView) WkeGetTitle() {
-	var api dllAPI
-	api.hFun = dllWkeGetTitle
-	api.arg1 = uintptr(0)
-	api.arg2 = uintptr(0)
-	api.arg3 = uintptr(0)
-	api.nargs = 3
-	callDLLAPI(api)
-	return
+func (mb *WebView) WkeGetTitle() string {
+	return ptr2str(mb.f_void(dllWkeGetTitle))
 }
+
+//未实现，请使用WkeGetTitle
 func (mb *WebView) WkeGetTitleW() {
+	panic("未实现")
 	var api dllAPI
 	api.hFun = dllWkeGetTitleW
 	api.arg1 = uintptr(0)
@@ -1393,15 +1389,8 @@ func (mb *WebView) WkeGetTitleW() {
 	callDLLAPI(api)
 	return
 }
-func (mb *WebView) WkeGetURL() {
-	var api dllAPI
-	api.hFun = dllWkeGetURL
-	api.arg1 = uintptr(0)
-	api.arg2 = uintptr(0)
-	api.arg3 = uintptr(0)
-	api.nargs = 3
-	callDLLAPI(api)
-	return
+func (mb *WebView) WkeGetURL() string {
+	return ptr2str(mb.f_void(dllWkeGetURL))
 }
 func (mb *WebView) WkeGetUserAgent() {
 	var api dllAPI
@@ -2538,13 +2527,12 @@ func (mb *WebView) WkePaint2() {
 func (mb *WebView) WkePaste() {
 	mb.f_void(dllWkePaste)
 }
-func (mb *WebView) WkePerformCookieCommand() {
+func (mb *WebView) WkePerformCookieCommand(cmd WkeCookieCommand) {
 	var api dllAPI
 	api.hFun = dllWkePerformCookieCommand
-	api.arg1 = uintptr(0)
-	api.arg2 = uintptr(0)
-	api.arg3 = uintptr(0)
-	api.nargs = 3
+	api.arg1 = uintptr(mb.hWkeWebView)
+	api.arg2 = uintptr(cmd)
+	api.nargs = 2
 	callDLLAPI(api)
 	return
 }
@@ -2751,43 +2739,34 @@ func (mb *WebView) WkeSetContextMenuItemShow() {
 	callDLLAPI(api)
 	return
 }
-func (mb *WebView) WkeSetCookie() {
+func (mb *WebView) WkeSetCookie(url, cookie string) {
 	var api dllAPI
 	api.hFun = dllWkeSetCookie
-	api.arg1 = uintptr(0)
-	api.arg2 = uintptr(0)
-	api.arg3 = uintptr(0)
+	api.arg1 = uintptr(mb.hWkeWebView)
+	api.arg2 = uintptr(str2ptr(url))
+	api.arg3 = uintptr(str2ptr(cookie))
 	api.nargs = 3
 	callDLLAPI(api)
 	return
 }
-func (mb *WebView) WkeSetCookieEnabled() {
-	var api dllAPI
-	api.hFun = dllWkeSetCookieEnabled
-	api.arg1 = uintptr(0)
-	api.arg2 = uintptr(0)
-	api.arg3 = uintptr(0)
-	api.nargs = 3
-	callDLLAPI(api)
-	return
+func (mb *WebView) WkeSetCookieEnabled(en bool) {
+	mb.f_bool_void(dllWkeSetCookieEnabled, en)
 }
-func (mb *WebView) WkeSetCookieJarFullPath() {
+func (mb *WebView) WkeSetCookieJarFullPath(path string) {
 	var api dllAPI
 	api.hFun = dllWkeSetCookieJarFullPath
-	api.arg1 = uintptr(0)
-	api.arg2 = uintptr(0)
-	api.arg3 = uintptr(0)
-	api.nargs = 3
+	api.arg1 = uintptr(mb.hWkeWebView)
+	api.arg2 = uintptr(str2wcharptr(path))
+	api.nargs = 2
 	callDLLAPI(api)
 	return
 }
-func (mb *WebView) WkeSetCookieJarPath() {
+func (mb *WebView) WkeSetCookieJarPath(path string) {
 	var api dllAPI
 	api.hFun = dllWkeSetCookieJarPath
-	api.arg1 = uintptr(0)
-	api.arg2 = uintptr(0)
-	api.arg3 = uintptr(0)
-	api.nargs = 3
+	api.arg1 = uintptr(mb.hWkeWebView)
+	api.arg2 = uintptr(str2wcharptr(path))
+	api.nargs = 2
 	callDLLAPI(api)
 	return
 }
@@ -3386,25 +3365,20 @@ func (mb *WebView) WkeVersionString() {
 	callDLLAPI(api)
 	return
 }
-func (mb *WebView) WkeVisitAllCookie() {
+
+//
+func (mb *WebView) WkeVisitAllCookie(params uintptr, visitor WkeCookieVisitor) {
 	var api dllAPI
 	api.hFun = dllWkeVisitAllCookie
-	api.arg1 = uintptr(0)
-	api.arg2 = uintptr(0)
-	api.arg3 = uintptr(0)
+	api.arg1 = uintptr(mb.hWkeWebView)
+	api.arg2 = params
+	api.arg3 = syscall.NewCallbackCDecl(visitor)
 	api.nargs = 3
 	callDLLAPI(api)
 	return
 }
 func (mb *WebView) WkeWake() {
-	var api dllAPI
-	api.hFun = dllWkeWake
-	api.arg1 = uintptr(0)
-	api.arg2 = uintptr(0)
-	api.arg3 = uintptr(0)
-	api.nargs = 3
-	callDLLAPI(api)
-	return
+	mb.f_void(dllWkeWake)
 }
 func (mb *WebView) WkeWebFrameGetMainFrame() {
 	var api dllAPI
