@@ -14,9 +14,8 @@ Fork 自 github.com/selfplan/gowebui
 
 # 使用前准备
 
-- 暂时只支持32位dll，
-
-- 64位dll可以使用，但是loadURL会出错，可以载入html，这个很奇怪（暂时不知道问题出在哪）
+- 32位dll暂时没遇到BUG，
+- 64位dll简单的加载网页，获取jsstring等暂未遇到BUG，但测试较少
 
 # 目前已实现公开接口
 
